@@ -52,5 +52,17 @@ module Crawler
         [transliterate(movie[:data][:title]), movie[:data][:release_date] && movie[:data][:release_date].year]
       end
     end
+
+    def self.best(query, year: nil)
+      data = search(query, year: year).max_by do |_, movies|
+        movie = movies.max_by do |movie|
+          movie[:score]
+        end
+
+        movie[:score]
+      end
+
+      data&.last
+    end
   end
 end
