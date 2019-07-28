@@ -48,7 +48,9 @@ module Crawler
         end
       end
 
-      movies.max_by { |movie| movie[:score] }
+      movies.group_by do |movie|
+        [transliterate(movie[:data][:title]), movie[:data][:release_date] && movie[:data][:release_date].year]
+      end
     end
   end
 end
